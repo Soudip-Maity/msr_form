@@ -1,32 +1,42 @@
-import { TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import React, { useState } from "react";
+import AddIcon from '@mui/icons-material/Add';
+import AddChildinput from "../Materials/AddChildinput";
+import Stack from '@mui/material/Stack';
+
 
 export default function Family_info() {
-    const item = localStorage.getItem("marrage");
+  const item = localStorage.getItem("marrage");
   const profile_gender = localStorage.getItem("gender");
-  const sguardian= localStorage.getItem("guardian")
-  const sguardianage= localStorage.getItem("guardianage")
+  const sguardian = localStorage.getItem("guardian");
+  const sguardianage = localStorage.getItem("guardianage");
+  const childname = localStorage.getItem("childname");
+  const schilds= localStorage.getItem("childs");
+  console.log(childname);
 
-const [guardian,setguardian]=useState(sguardian || "");
-const [guardianage,setguardianage]=useState(sguardianage || "");
+  const [guardian, setguardian] = useState(sguardian || "");
+  const [guardianage, setguardianage] = useState(sguardianage || "");
+  const [childinput,setchildinput]= useState(false);
+  const[childvalue,setchildvalue]= useState(schilds || []);
 
- 
 
-  const handlegardianNameChange=(event)=>{
-    const guardians=event.target.value;
+  const handlegardianNameChange = (event) => {
+    const guardians = event.target.value;
     setguardian(guardians);
-    localStorage.setItem("guardian",guardians);
+    localStorage.setItem("guardian", guardians);
     console.log(guardians);
-    
   };
-  const handleAgeChange=(event)=>{
-    const guardiansage=event.target.value;
+  const handleAgeChange = (event) => {
+    const guardiansage = event.target.value;
     setguardianage(guardiansage);
-    localStorage.setItem("guardianage",guardiansage);
+    localStorage.setItem("guardianage", guardiansage);
     console.log(guardiansage);
-    
   };
 
+  const handleAddinput=()=>{
+setchildinput(true)
+  }
+console.log(`childs name is ${schilds}`);
 
   return (
     <div
@@ -38,13 +48,14 @@ const [guardianage,setguardianage]=useState(sguardianage || "");
         display: "flex",
         marginLeft: "200px",
         padding: "20px",
-        boxShadow:"1px 1px ",
-          // boxShadow:"2px 1px 1px 1px grey",
-        borderRadius:"10px"
+        boxShadow: "1px 1px ",
+        // boxShadow:"2px 1px 1px 1px grey",
+        borderRadius: "10px",
+        overflow: "auto",
       }}
     >
       {item === "yes" ? (
-        <div>
+        <div style={{ display: "flex", flexDirection: "column", gap: "30px" }}>
           <div style={{ display: "flex", gap: "30px" }}>
             <TextField
               required
@@ -74,6 +85,37 @@ const [guardianage,setguardianage]=useState(sguardianage || "");
               }}
             />
           </div>
+
+          <div style={{ display: "flex", gap: "20px" ,flexDirection:"column"}}>
+            <div>
+                 <Stack spacing={2} direction="row">
+                <Button variant="contained" onClick={handleAddinput}>
+              <AddIcon/>
+              Add Child details
+            </Button>
+              </Stack>
+            </div> 
+            <div >
+              {childinput&&<AddChildinput childvalue={childvalue} setchildvalue={setchildvalue} setchildinput={setchildinput}/>}
+
+            </div>
+
+          </div>
+
+          <div>
+            
+    <div>
+      {
+        childvalue.map((i,index)=>(
+          <div style={{display:"flex" }} key={index}>
+            <p>{index+1}.</p>  <p> {i}</p>
+          </div>
+        ))
+
+      }  
+    </div>
+
+          </div>
         </div>
       ) : (
         <div>
@@ -84,7 +126,7 @@ const [guardianage,setguardianage]=useState(sguardianage || "");
               multiline
               maxRows={4}
               spellCheck="false"
-             value={guardian}
+              value={guardian}
               onChange={handlegardianNameChange}
               style={{ height: "55px", width: "300px" }}
             />
