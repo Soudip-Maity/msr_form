@@ -14,7 +14,7 @@ export default function AddChildinput({childvalue,setchildvalue,setchildinput}) 
 
     const Addchildvalue= ()=>{
       setchildvalue([...childvalue,input]);
-      localStorage.setItem("childs",[...childvalue,input])
+      // localStorage.setItem("childs",[...childvalue,input])
       setinput([])
       setchildinput(false)
 

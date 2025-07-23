@@ -1,9 +1,12 @@
 import { Button, TextField } from "@mui/material";
-import React, { useState } from "react";
-import AddIcon from '@mui/icons-material/Add';
+import React, { useEffect, useState } from "react";
+import AddIcon from "@mui/icons-material/Add";
 import AddChildinput from "../Materials/AddChildinput";
-import Stack from '@mui/material/Stack';
-
+import Stack from "@mui/material/Stack";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+// import WomanIcon from "@mui/icons-material/Woman";
+import Editinput from "../Materials/Editinput";
 
 export default function Family_info() {
   const item = localStorage.getItem("marrage");
@@ -11,13 +14,15 @@ export default function Family_info() {
   const sguardian = localStorage.getItem("guardian");
   const sguardianage = localStorage.getItem("guardianage");
   const childname = localStorage.getItem("childname");
-  const schilds= localStorage.getItem("childs");
+  const schilds = localStorage.getItem("childs name");
   console.log(childname);
 
   const [guardian, setguardian] = useState(sguardian || "");
   const [guardianage, setguardianage] = useState(sguardianage || "");
-  const [childinput,setchildinput]= useState(false);
-  const[childvalue,setchildvalue]= useState(schilds || []);
+  const [childinput, setchildinput] = useState(false);
+  const [childvalue, setchildvalue] = useState(JSON.parse(schilds)||[]);
+ const [editvalue,seteditvalue]= useState("")
+ const [editindex,seteditindex]=useState("")
 
 
   const handlegardianNameChange = (event) => {
@@ -33,10 +38,28 @@ export default function Family_info() {
     console.log(guardiansage);
   };
 
-  const handleAddinput=()=>{
-setchildinput(true)
-  }
-console.log(`childs name is ${schilds}`);
+  const handleAddinput = () => {
+    setchildinput(true);
+  };
+
+  const handleEditchild = (index) => {
+    seteditindex(index)
+    seteditvalue(childvalue[index])
+  };
+
+  const handledelchild = (index) => {
+    const updatechildvalue = childvalue.filter((_,i) => i !== index);
+    setchildvalue(updatechildvalue);
+  };
+
+console.log(`abcd ${editvalue}`);
+    console.log(editindex);
+
+
+    useEffect(()=>{
+      const childnamearrey=JSON.stringify(childvalue)
+      localStorage.setItem("childs name",childnamearrey)
+    },[childvalue])
 
   return (
     <div
@@ -86,35 +109,65 @@ console.log(`childs name is ${schilds}`);
             />
           </div>
 
-          <div style={{ display: "flex", gap: "20px" ,flexDirection:"column"}}>
+          <div
+            style={{ display: "flex", gap: "20px", flexDirection: "column" }}
+          >
             <div>
-                 <Stack spacing={2} direction="row">
+              <Stack spacing={2} direction="row">
                 <Button variant="contained" onClick={handleAddinput}>
-              <AddIcon/>
-              Add Child details
-            </Button>
+                  <AddIcon />
+                  Add Child details
+                </Button>
               </Stack>
-            </div> 
-            <div >
-              {childinput&&<AddChildinput childvalue={childvalue} setchildvalue={setchildvalue} setchildinput={setchildinput}/>}
-
             </div>
-
+            <div>
+              {childinput && (
+                <AddChildinput
+                  childvalue={childvalue}
+                  setchildvalue={setchildvalue}
+                  setchildinput={setchildinput}
+                />
+              )}
+            </div>
           </div>
 
           <div>
-            
-    <div>
-      {
-        childvalue.map((i,index)=>(
-          <div style={{display:"flex" }} key={index}>
-            <p>{index+1}.</p>  <p> {i}</p>
-          </div>
-        ))
+            <div>
+              {childvalue.map((i, index) => (
+                editindex===index?
+                <Editinput  editvalue={editvalue} seteditvalue={seteditvalue} seteditindex={seteditindex} editindex={editindex} setchildvalue={setchildvalue} childvalue={childvalue}/>
 
-      }  
-    </div>
-
+                :<div style={{ display: "flex" }} key={index}>
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "30px",
+                      minWidth: "100px",
+                      fontSize: "20px",
+                    }}
+                  >
+                    <p>{index + 1}.</p>
+                    <p>
+                      <b>{i}</b>{" "}
+                    </p>
+                  </div>
+                  <div
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    <Button onClick={()=>handleEditchild(index)}>
+                      <EditIcon color="action" />
+                    </Button>
+                  </div>
+                  <div
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    <Button onClick={()=>handledelchild(index)}>
+                      <DeleteIcon color="error" />
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       ) : (
