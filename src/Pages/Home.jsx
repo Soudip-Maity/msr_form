@@ -29,7 +29,7 @@ const steps = [
 export default function HorizontalLinearStepper() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
-  const [details, setdetails]= React.useState({})
+  // const [details, setdetails]= React.useState({})
 
   
 
@@ -78,15 +78,16 @@ export default function HorizontalLinearStepper() {
 
   return (
     <Box sx={{ width: "100%", height: "100vh", boxSizing: "border-box" }}>
+      <Box sx={{ width: "1000px", height: "100vh", boxSizing: "border-box",marginLeft: "200px",}}>
       <Stepper activeStep={activeStep} sx={{paddingBottom:"40px"}}>
         {steps.map((label, index) => {
           const stepProps = {};
           const labelProps = {};
-          if (isStepOptional(index)) {
-            labelProps.optional = (
-              <Typography variant="caption">Optional</Typography>
-            );
-          }
+          // if (isStepOptional(index)) {
+          //   labelProps.optional = (
+          //     <Typography variant="caption">Optional</Typography>
+          //   );
+          // }
           if (isStepSkipped(index)) {
             stepProps.completed = false;
           }
@@ -169,6 +170,7 @@ export default function HorizontalLinearStepper() {
         </React.Fragment>
       )}
 
+</Box>
     </Box>
   );
 }

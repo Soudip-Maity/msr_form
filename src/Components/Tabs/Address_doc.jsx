@@ -1,4 +1,5 @@
 import {
+  Button,
   FormControl,
   FormHelperText,
   InputLabel,
@@ -7,6 +8,8 @@ import {
   TextField,
 } from "@mui/material";
 import React, { useState } from "react";
+import ReplayCircleFilledIcon from "@mui/icons-material/ReplayCircleFilled";
+
 export default function Address_doc() {
   const country = localStorage.getItem("countryvalue");
   const sidproof = localStorage.getItem("idproof");
@@ -33,7 +36,13 @@ export default function Address_doc() {
     setidproofno(proofsno);
     localStorage.setItem("idproofno", proofsno);
   };
- 
+
+  const handleRefreshpage = () => {
+    setidproof("");
+    setidproofno("");
+    setaddress("");
+  };
+
   return (
     <div
       style={{
@@ -43,26 +52,36 @@ export default function Address_doc() {
         boxSizing: "border-box",
         display: "flex",
         flexDirection: "column",
-        marginLeft: "200px",
+        // marginLeft: "200px",
         padding: "20px",
         gap: "20px",
-        borderRadius:"10px",
-        boxShadow:"1px 1px ",
-
+        borderRadius: "10px",
+        boxShadow: "1px 1px ",
       }}
     >
-      <div style={{ display: "flex", gap: "20px", height: "fixed" }}>
-        <h3>Address :</h3>
-        <TextField
-          id="standard-multiline-flexible"
-          label="Address"
-          multiline
-          maxRows={4}
-          variant="standard"
-          value={address}
-          onChange={handleaddress}
-          sx={{ minWidth: "600px" }}
-        />
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div style={{ display: "flex", gap: "20px", height: "fixed" }}>
+          <h4>Address :</h4>
+          <TextField
+          size="small"
+            id="standard-multiline-flexible"
+            label="Address"
+            multiline
+            maxRows={4}
+            variant="standard"
+            value={address}
+            onChange={handleaddress}
+            sx={{ minWidth: "600px" }}
+          />
+        </div>
+
+        <div>
+          <Button onClick={handleRefreshpage}>
+            <ReplayCircleFilledIcon
+              style={{ fontSize: "40px", cursor: "pointer", color: "red" }}
+            />
+          </Button>
+        </div>
       </div>
 
       <div
@@ -71,13 +90,14 @@ export default function Address_doc() {
           gap: "50px",
         }}
       >
-        <div style={{ display: "flex" }}>
+        <div style={{ display: "flex",alignItems:"center" }}>
           {country === "india" ? (
             <FormControl sx={{ m: 1, minWidth: 200 }}>
               <InputLabel id="demo-simple-select-helper-label">
                 Proof of Identity
               </InputLabel>
               <Select
+              size="small"
                 labelId="demo-simple-select-helper-label"
                 id="demo-simple-select-helper"
                 value={idproof}
@@ -94,6 +114,7 @@ export default function Address_doc() {
                 Proof of Identity
               </InputLabel>
               <Select
+              size="small"
                 labelId="demo-simple-select-helper-label"
                 id="demo-simple-select-helper"
                 value={idproof}
@@ -106,9 +127,10 @@ export default function Address_doc() {
           )}
         </div>
 
-        <div style={{ display: "flex", gap: "20px" }}>
-          <h3>{idproof === "Aadhar" ? "Aadhar No :" : "Passport No : "}</h3>
+        <div style={{ display: "flex", gap: "20px",alignItems:"center" }}>
+          <h4>{idproof === "Aadhar" ? "Aadhar No :" : "Passport No : "}</h4>
           <TextField
+          size="small"
             sx={{ m: 1, Width: "200px" }}
             hiddenLabel
             id="filled-hidden-label-normal"

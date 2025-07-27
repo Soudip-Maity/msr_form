@@ -19,7 +19,7 @@ export default function Review() {
         boxSizing: "border-box",
         display: "flex",
         flexDirection:"column",
-        marginLeft: "200px",
+        // marginLeft: "200px",
         padding:"10px",
         borderRadius:"10px",
         boxShadow:"1px 1px ",

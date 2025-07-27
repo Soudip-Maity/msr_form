@@ -40,7 +40,7 @@ const handleupdate=()=>{
             update
           </Button>
           <Button variant="contained" color="error" sx={{ minWidth: "20px" }} onClick={handleEditcancil}>
-            cancil
+            cancel
           </Button>
         </Box>
       </div>

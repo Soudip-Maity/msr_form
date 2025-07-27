@@ -7,6 +7,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 // import WomanIcon from "@mui/icons-material/Woman";
 import Editinput from "../Materials/Editinput";
+import ReplayCircleFilledIcon from "@mui/icons-material/ReplayCircleFilled";
 
 export default function Family_info() {
   const item = localStorage.getItem("marrage");
@@ -20,10 +21,9 @@ export default function Family_info() {
   const [guardian, setguardian] = useState(sguardian || "");
   const [guardianage, setguardianage] = useState(sguardianage || "");
   const [childinput, setchildinput] = useState(false);
-  const [childvalue, setchildvalue] = useState(JSON.parse(schilds)||[]);
- const [editvalue,seteditvalue]= useState("")
- const [editindex,seteditindex]=useState("")
-
+  const [childvalue, setchildvalue] = useState(JSON.parse(schilds) || []);
+  const [editvalue, seteditvalue] = useState("");
+  const [editindex, seteditindex] = useState("");
 
   const handlegardianNameChange = (event) => {
     const guardians = event.target.value;
@@ -43,23 +43,28 @@ export default function Family_info() {
   };
 
   const handleEditchild = (index) => {
-    seteditindex(index)
-    seteditvalue(childvalue[index])
+    seteditindex(index);
+    seteditvalue(childvalue[index]);
   };
 
   const handledelchild = (index) => {
-    const updatechildvalue = childvalue.filter((_,i) => i !== index);
+    const updatechildvalue = childvalue.filter((_, i) => i !== index);
     setchildvalue(updatechildvalue);
   };
 
-console.log(`abcd ${editvalue}`);
-    console.log(editindex);
+  console.log(`abcd ${editvalue}`);
+  console.log(editindex);
 
+  useEffect(() => {
+    const childnamearrey = JSON.stringify(childvalue);
+    localStorage.setItem("childs name", childnamearrey);
+  }, [childvalue]);
 
-    useEffect(()=>{
-      const childnamearrey=JSON.stringify(childvalue)
-      localStorage.setItem("childs name",childnamearrey)
-    },[childvalue])
+  const handleRefreshpage = () => {
+    setguardian("");
+    setguardianage("");
+    setchildvalue([]);
+  };
 
   return (
     <div
@@ -69,7 +74,7 @@ console.log(`abcd ${editvalue}`);
         backgroundColor: "whitesmoke",
         boxSizing: "border-box",
         display: "flex",
-        marginLeft: "200px",
+        // marginLeft: "200px",
         padding: "20px",
         boxShadow: "1px 1px ",
         // boxShadow:"2px 1px 1px 1px grey",
@@ -78,35 +83,46 @@ console.log(`abcd ${editvalue}`);
       }}
     >
       {item === "yes" ? (
-        <div style={{ display: "flex", flexDirection: "column", gap: "30px" }}>
-          <div style={{ display: "flex", gap: "30px" }}>
-            <TextField
-              required
-              id="outlined-multiline-flexible"
-              label={
-                profile_gender === "male" ? "Wife's name" : "Husband's name"
-              }
-              multiline
-              maxRows={4}
-              spellCheck="false"
-              value={guardian}
-              onChange={handlegardianNameChange}
-              style={{ height: "55px", width: "300px" }}
-            />
+        <div style={{ display: "flex", flexDirection: "column", width:"100%" }}>
+          <div style={{ display: "flex", justifyContent: "space-between",width:"100%" ,alignItems:"center"}}>
+            <div style={{ display: "flex", gap: "30px" }}>
+              <TextField
+              size="small"
+                required
+                id="outlined-multiline-flexible"
+                label={
+                  profile_gender === "male" ? "Wife's name" : "Husband's name"
+                }
+                multiline
+                maxRows={4}
+                spellCheck="false"
+                value={guardian}
+                onChange={handlegardianNameChange}
+                style={{ height: "55px", width: "300px" }}
+              />
 
-            <input
-              type="date"
-              value={guardianage}
-              onChange={handleAgeChange}
-              style={{
-                height: "55px",
-                width: "200px",
-                borderRadius: "5px",
-                fontSize: "20px",
-                backgroundColor: " ",
-                border: ".5px solid grey ",
-              }}
-            />
+              <input
+                type="date"
+                value={guardianage}
+                onChange={handleAgeChange}
+                style={{
+                  height: "40px",
+                  width: "200px",
+                  borderRadius: "5px",
+                  fontSize: "20px",
+                  backgroundColor: " ",
+                  border: ".5px solid lightgrey ",
+                }}
+              />
+            </div>
+            
+            <div>
+              <Button onClick={handleRefreshpage}>
+                <ReplayCircleFilledIcon
+                  style={{ fontSize: "40px", cursor: "pointer", color: "red" }}
+                />
+              </Button>
+            </div>
           </div>
 
           <div
@@ -132,50 +148,68 @@ console.log(`abcd ${editvalue}`);
           </div>
 
           <div>
-            <div>
-              {childvalue.map((i, index) => (
-                editindex===index?
-                <Editinput  editvalue={editvalue} seteditvalue={seteditvalue} seteditindex={seteditindex} editindex={editindex} setchildvalue={setchildvalue} childvalue={childvalue}/>
+            <div >
+              <p  style={{display:"flex",justifyContent:"flex-start"}} >Child's Names</p>
 
-                :<div style={{ display: "flex" }} key={index}>
-                  <div
-                    style={{
-                      display: "flex",
-                      gap: "30px",
-                      minWidth: "100px",
-                      fontSize: "20px",
-                    }}
-                  >
-                    <p>{index + 1}.</p>
-                    <p>
-                      <b>{i}</b>{" "}
-                    </p>
+              {childvalue.map((i, index) =>
+                editindex === index ? (
+                  <Editinput
+                    editvalue={editvalue}
+                    seteditvalue={seteditvalue}
+                    seteditindex={seteditindex}
+                    editindex={editindex}
+                    setchildvalue={setchildvalue}
+                    childvalue={childvalue}
+                  />
+                ) : (
+                  <div style={{ display: "flex",height:"30px",paddingBottom:"10px",alignItems:"center",}} key={index}>
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: "30px",
+                        minWidth: "100px",
+                        fontSize: "16px",
+                      }}
+                    >
+                      <p>{index + 1}.</p>
+                      <p>
+                        {i}
+                      </p>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <Button onClick={() => handleEditchild(index)}>
+                        <EditIcon color="action" style={{height:"20px"}} />
+                      </Button>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <Button onClick={() => handledelchild(index)}>
+                        <DeleteIcon color="error" />
+                      </Button>
+                    </div>
                   </div>
-                  <div
-                    style={{ display: "flex", justifyContent: "space-between" }}
-                  >
-                    <Button onClick={()=>handleEditchild(index)}>
-                      <EditIcon color="action" />
-                    </Button>
-                  </div>
-                  <div
-                    style={{ display: "flex", justifyContent: "space-between" }}
-                  >
-                    <Button onClick={()=>handledelchild(index)}>
-                      <DeleteIcon color="error" />
-                    </Button>
-                  </div>
-                </div>
-              ))}
+                )
+              )}
             </div>
           </div>
         </div>
       ) : (
-        <div>
+        <div style={{width:"100%"}}>
+            <div style={{ display: "flex", justifyContent:"space-between",width:"100%" ,alignItems:"center"}}>
           <div style={{ display: "flex", gap: "30px" }}>
             <TextField
+            size="small"
               id="outlined-multiline-flexible"
-              label=" fathers's Name"
+              label=" Father's Name"
               multiline
               maxRows={4}
               spellCheck="false"
@@ -189,7 +223,7 @@ console.log(`abcd ${editvalue}`);
               value={guardianage}
               onChange={handleAgeChange}
               style={{
-                height: "55px",
+                height: "40px",
                 width: "200px",
                 borderRadius: "5px",
                 fontSize: "20px",
@@ -197,6 +231,14 @@ console.log(`abcd ${editvalue}`);
                 border: ".5px solid grey ",
               }}
             />
+          </div>
+                <div>
+              <Button onClick={handleRefreshpage}>
+                <ReplayCircleFilledIcon
+                  style={{ fontSize: "40px", cursor: "pointer", color: "red" }}
+                />
+              </Button>
+            </div>
           </div>
         </div>
       )}

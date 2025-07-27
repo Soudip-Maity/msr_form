@@ -12,6 +12,8 @@ import {
   FormLabel,
 } from "@mui/material";
 
+import ReplayCircleFilledIcon from "@mui/icons-material/ReplayCircleFilled";
+
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
   clipPath: "inset(50%)",
@@ -29,13 +31,13 @@ export default function Personal_info() {
   const ggender = localStorage.getItem("gender");
   const gmarrage = localStorage.getItem("marrage");
 
-
-  
   const [name, setName] = useState(gusername || "");
   const [age, setAge] = useState(guserage || "");
   const [gender, setGender] = useState(ggender || "");
   const [married, setmarried] = useState(gmarrage || "");
   const [pimg, setpimg] = useState("");
+
+  const dates = new Date().toLocaleDateString();
 
   const handleNameChange = (event) => {
     const username = event.target.value;
@@ -46,6 +48,8 @@ export default function Personal_info() {
 
   const handleAgeChange = (event) => {
     const userage = event.target.value;
+    // if (userage >= new Date().toLocaleDateString()){
+    //   return;}
     setAge(userage);
     localStorage.setItem("userage", userage);
   };
@@ -64,6 +68,16 @@ export default function Personal_info() {
 
   console.log(ggender);
 
+  console.log(dates);
+
+  const handleRefreshpage= ()=>{
+    setName("")
+    setAge("")
+    setGender("")
+    setpimg("")
+    setmarried("")
+  }
+
   return (
     <div
       style={{
@@ -72,10 +86,9 @@ export default function Personal_info() {
         backgroundColor: "whitesmoke",
         boxSizing: "border-box",
         display: "flex",
-        marginLeft: "200px",
-        boxShadow:"1px 1px ",
-        borderRadius:"10px"
-
+        // marginLeft: "200px",
+        boxShadow: "1px 1px ",
+        borderRadius: "10px",
       }}
     >
       <div
@@ -87,8 +100,7 @@ export default function Personal_info() {
           gap: "30px",
           // backgroundColor: "red",
           width: "400px",
-        borderRadius:"10px"
-
+          borderRadius: "10px",
         }}
       >
         <div
@@ -117,7 +129,7 @@ export default function Personal_info() {
             tabIndex={-1}
             startIcon={<CloudUploadIcon />}
           >
-            Upload files
+            Upload file
             <VisuallyHiddenInput
               type="file"
               accept="image/*"
@@ -146,49 +158,57 @@ export default function Personal_info() {
           // backgroundColor: "grey",
           width: "600px",
           paddingLeft: "30px",
-          borderLeft:".5px dotted black"
+          borderLeft: ".5px dotted black",
         }}
       >
-        <div style={{ display: "flex", gap: "30px" ,flexDirection:"column"}}>
-          <div style={{display:"flex",gap:"30px"}}>
-<h3>Name :</h3>
-  <TextField
-            required
-            id="outlined-multiline-flexible"
-            label="Name"
-            multiline
-            maxRows={4}
-            spellCheck="false"
-            value={name}
-            onChange={handleNameChange}
-            style={{ height: "55px", width: "300px" }}
-          />
-          </div>
-        
-            <div style={{display:"flex",gap:"30px"}}>
-              <h3>DOB : </h3>
-                  <input
-            type="date"
-            min="1950-01-01"
-            max="2025-07-16"
-            value={age}
-            onChange={handleAgeChange}
-            style={{
-              height: "55px",
-              width: "200px",
-              borderRadius: "5px",
-              fontSize: "20px",
-              // backgroundColor: " grey",
-              border: ".5px solid  ",
-            }}
-          />
+        <div style={{ display: "flex", gap: "30px", flexDirection: "column" }}>
+          <div style={{ display: "flex", justifyContent: "space-between"  }}>
+            <div style={{ display: "flex", gap: "30px", alignItems:"center" }}>
+              <h4 >Name :</h4>
+              <TextField
+                required
+                id="outlined-multiline-flexible"
+                label="Name"
+                multiline
+                size="small"
+                maxRows={4}
+                spellCheck="false"
+                value={name}
+                onChange={handleNameChange}
+                style={{  width: "300px" }}
+              />
             </div>
-      
+            <Button onClick={handleRefreshpage}>
+               <ReplayCircleFilledIcon 
+              style={{ fontSize: "40px", cursor: "pointer", color: "red" }}
+            
+            />
+            </Button>
+           
+          </div>
+          <div style={{ display: "flex", gap: "30px",alignItems:"center" }}>
+            <h4>DOB : </h4>
+            <input
+              type="date"
+              min="1950-01-01"
+              max="2025-07-16"
+              value={age}
+              onChange={handleAgeChange}
+              style={{
+                height: "40px",
+                width: "200px",
+                borderRadius: "5px",
+                fontSize: "20px",
+                // backgroundColor: " grey",
+                border: ".5px solid lightgrey ",
+              }}
+            />
+          </div>
         </div>
 
         <div style={{ display: "flex", gap: "30px" }}>
-          <FormControl style={{ display: "flex" }} required>
-            <FormLabel id="demo-row-radio-buttons-group-label">
+          <FormControl style={{ display: "flex" , }}>
+            <FormLabel id="demo-row-radio-buttons-group-label" style={{display:"flex", justifyContent:"flex-start"}}>
               Gender
             </FormLabel>
             <RadioGroup
@@ -215,7 +235,7 @@ export default function Personal_info() {
         </div>
         <div style={{ display: "flex" }}>
           <FormControl>
-            <FormLabel id="demo-controlled-radio-buttons-group">
+            <FormLabel id="demo-controlled-radio-buttons-group" style={{display:"flex", justifyContent:"flex-start"}}>
               Married ?
             </FormLabel>
             <RadioGroup
