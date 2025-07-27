@@ -5,7 +5,7 @@ const ProgressBar = ({details, steps}) => {
   return (
     <Box pb={2}>
       <Stepper activeStep={details.currentStepId - 1}>
-        {steps.map((step, index) => {
+        {steps.filter(s => s.show).map((step, index) => {
           const stepProps = {completed: true};
          
           if (step.id >= details.currentStepId) {

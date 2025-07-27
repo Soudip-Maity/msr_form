@@ -16,7 +16,7 @@ const initialState = {
   educationInfo: {qualification: "", yearOfPassing: "", institutionName: ""},
   employmentInfo: {status: "", companyName: "", income: ""},
   addressAndIdentityInfo: {address: "", proofOfIdentity: "", concent: false, cardNumber: ""},
-  currentStepId: 1
+  currentStepId: 2
 }
 
 const Home = () => {

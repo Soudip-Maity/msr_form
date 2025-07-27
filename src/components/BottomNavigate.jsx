@@ -23,11 +23,11 @@ const BottomNavigate = ({details, setDetails, steps}) => {
       </Button>
       <Box sx={{ flex: '1 1 auto' }} />
       {currentStep.skippable && (
-        <Button color="inherit" onClick={handleNext} sx={{ mr: 1 }}>
+        <Button color="inherit" onClick={handleNext} sx={{ mr: 1 }} disabled={!currentStep.validNow}>
           Skip
         </Button>
       )}
-      <Button onClick={handleNext}>
+      <Button onClick={handleNext} disabled={!currentStep.validNow}>
         {details.currentStepId === steps.length ? 'Finish' : 'Next'}
       </Button>
     </Box>
