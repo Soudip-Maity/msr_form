@@ -16,6 +16,7 @@ export default function Family_info() {
   const sguardianage = localStorage.getItem("guardianage");
   const childname = localStorage.getItem("childname");
   const schilds = localStorage.getItem("childs name");
+  const userage = localStorage.getItem("userage");
   console.log(childname);
 
   const [guardian, setguardian] = useState(sguardian || "");
@@ -24,6 +25,9 @@ export default function Family_info() {
   const [childvalue, setchildvalue] = useState(JSON.parse(schilds) || []);
   const [editvalue, seteditvalue] = useState("");
   const [editindex, seteditindex] = useState("");
+  const[childage,setchildage]= useState("")
+  const[editchildage,seteditchildage]= useState("")
+
 
   const handlegardianNameChange = (event) => {
     const guardians = event.target.value;
@@ -36,6 +40,7 @@ export default function Family_info() {
     setguardianage(guardiansage);
     localStorage.setItem("guardianage", guardiansage);
     console.log(guardiansage);
+
   };
 
   const handleAddinput = () => {
@@ -45,6 +50,7 @@ export default function Family_info() {
   const handleEditchild = (index) => {
     seteditindex(index);
     seteditvalue(childvalue[index]);
+    seteditchildage(childage[index])
   };
 
   const handledelchild = (index) => {
@@ -57,14 +63,18 @@ export default function Family_info() {
 
   useEffect(() => {
     const childnamearrey = JSON.stringify(childvalue);
+    const childagearrey = JSON.stringify(childage);
     localStorage.setItem("childs name", childnamearrey);
-  }, [childvalue]);
+    localStorage.setItem("childs age", childagearrey);
+  }, [childvalue,childage]);
 
   const handleRefreshpage = () => {
     setguardian("");
     setguardianage("");
     setchildvalue([]);
   };
+
+console.log(`kkkkkkk${userage}`);
 
   return (
     <div
@@ -87,7 +97,7 @@ export default function Family_info() {
           <div style={{ display: "flex", justifyContent: "space-between",width:"100%" ,alignItems:"center"}}>
             <div style={{ display: "flex", gap: "30px" }}>
               <TextField
-              size="small"
+                  size="small"
                 required
                 id="outlined-multiline-flexible"
                 label={
@@ -100,9 +110,21 @@ export default function Family_info() {
                 onChange={handlegardianNameChange}
                 style={{ height: "55px", width: "300px" }}
               />
+              <TextField
+                  size="small"
+                  type="number"
+                required
+                id="outlined-multiline-flexible"
+                label={
+                  profile_gender === "male" ? "Wife's age" : "Husband's age"
+                }
+                spellCheck="false"
+                       value={guardianage}
+                onChange={handleAgeChange}
+              />
 
-              <input
-                type="date"
+              {/* <input
+                type="number"
                 value={guardianage}
                 onChange={handleAgeChange}
                 style={{
@@ -110,10 +132,10 @@ export default function Family_info() {
                   width: "200px",
                   borderRadius: "5px",
                   fontSize: "20px",
-                  backgroundColor: " ",
+                  background: "none",
                   border: ".5px solid lightgrey ",
                 }}
-              />
+              /> */}
             </div>
             
             <div>
@@ -142,6 +164,9 @@ export default function Family_info() {
                   childvalue={childvalue}
                   setchildvalue={setchildvalue}
                   setchildinput={setchildinput}
+                  childage={childage}
+                  setchildage={setchildage}
+                  userage={userage}
                 />
               )}
             </div>
@@ -152,6 +177,7 @@ export default function Family_info() {
               <p  style={{display:"flex",justifyContent:"flex-start"}} >Child's Names</p>
 
               {childvalue.map((i, index) =>
+            
                 editindex === index ? (
                   <Editinput
                     editvalue={editvalue}
@@ -160,6 +186,11 @@ export default function Family_info() {
                     editindex={editindex}
                     setchildvalue={setchildvalue}
                     childvalue={childvalue}
+                      childage={childage}
+                  setchildage={setchildage}
+                  userage={userage}
+                  editchildage={editchildage}
+                  seteditchildage={seteditchildage}
                   />
                 ) : (
                   <div style={{ display: "flex",height:"30px",paddingBottom:"10px",alignItems:"center",}} key={index}>
@@ -169,11 +200,12 @@ export default function Family_info() {
                         gap: "30px",
                         minWidth: "100px",
                         fontSize: "16px",
+                        alignItems:"center"
                       }}
                     >
                       <p>{index + 1}.</p>
-                      <p>
-                        {i}
+                      <p style={{display:"flex",justifyContent:"space-between",width:"200px",alignItems:"center"}}>
+                       <p>Name : {i}</p>  <p> Age : {childage[index]}</p>
                       </p>
                     </div>
                     <div
@@ -218,18 +250,12 @@ export default function Family_info() {
               style={{ height: "55px", width: "300px" }}
             />
 
-            <input
-              type="date"
+            <TextField
+            size="small"
+              type="number"
+                 label=" Father's age"
               value={guardianage}
               onChange={handleAgeChange}
-              style={{
-                height: "40px",
-                width: "200px",
-                borderRadius: "5px",
-                fontSize: "20px",
-                // backgroundColor: "pink ",
-                border: ".5px solid grey ",
-              }}
             />
           </div>
                 <div>

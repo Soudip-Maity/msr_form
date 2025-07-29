@@ -27,15 +27,16 @@ const VisuallyHiddenInput = styled("input")({
 });
 export default function Personal_info() {
   const gusername = localStorage.getItem("username");
-  const guserage = localStorage.getItem("userage");
+  const guserage = localStorage.getItem("userdob");
   const ggender = localStorage.getItem("gender");
   const gmarrage = localStorage.getItem("marrage");
-
+  const limage = localStorage.getItem("profileImage")
+  
   const [name, setName] = useState(gusername || "");
   const [age, setAge] = useState(guserage || "");
   const [gender, setGender] = useState(ggender || "");
   const [married, setmarried] = useState(gmarrage || "");
-  const [pimg, setpimg] = useState("");
+  const [pimg, setpimg] = useState(limage||"");
 
   const dates = new Date().toLocaleDateString();
 
@@ -51,7 +52,10 @@ export default function Personal_info() {
     // if (userage >= new Date().toLocaleDateString()){
     //   return;}
     setAge(userage);
-    localStorage.setItem("userage", userage);
+
+    localStorage.setItem("userdob", userage);
+    localStorage.setItem("userage", calculateAge(userage));
+
   };
 
   const handleGenderChange = (event) => {
@@ -70,13 +74,27 @@ export default function Personal_info() {
 
   console.log(dates);
 
-  const handleRefreshpage= ()=>{
-    setName("")
-    setAge("")
-    setGender("")
-    setpimg("")
-    setmarried("")
-  }
+  const handleRefreshpage = () => {
+    setName("");
+    setAge("");
+    setGender("");
+    setpimg("");
+    setmarried("");
+  };
+
+     const calculateAge = (dob) => {
+    const birthDate = new Date(dob);
+    const today = new Date();
+
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+
+    return age;
+  };
 
   return (
     <div
@@ -130,20 +148,27 @@ export default function Personal_info() {
             startIcon={<CloudUploadIcon />}
           >
             Upload file
-            <VisuallyHiddenInput
-              type="file"
-              accept="image/*"
-              onChange={(event) => {
-                const file = event.target.files[0];
-                if (file) {
-                  const reader = new FileReader();
-                  reader.onloadend = () => {
-                    setpimg(reader.result);
-                  };
-                  reader.readAsDataURL(file);
-                }
-              }}
-            />
+           <VisuallyHiddenInput
+  type="file"
+  accept="image/png, image/jpeg, image/jpg"
+  onChange={(event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
+      if (!allowedTypes.includes(file.type)) {
+        alert("Only JPG, JPEG, and PNG formats are allowed.");
+        return;
+      }
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setpimg(reader.result);
+        localStorage.setItem("profileImage", reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  }}
+/>
+
           </Button>
         </div>
       </div>
@@ -162,9 +187,9 @@ export default function Personal_info() {
         }}
       >
         <div style={{ display: "flex", gap: "30px", flexDirection: "column" }}>
-          <div style={{ display: "flex", justifyContent: "space-between"  }}>
-            <div style={{ display: "flex", gap: "30px", alignItems:"center" }}>
-              <h4 >Name :</h4>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <div style={{ display: "flex", gap: "30px", alignItems: "center" }}>
+              <h4>Name :</h4>
               <TextField
                 required
                 id="outlined-multiline-flexible"
@@ -175,20 +200,18 @@ export default function Personal_info() {
                 spellCheck="false"
                 value={name}
                 onChange={handleNameChange}
-                style={{  width: "300px" }}
+                style={{ width: "300px" }}
               />
             </div>
             <Button onClick={handleRefreshpage}>
-               <ReplayCircleFilledIcon 
-              style={{ fontSize: "40px", cursor: "pointer", color: "red" }}
-            
-            />
+              <ReplayCircleFilledIcon
+                style={{ fontSize: "40px", cursor: "pointer", color: "red" }}
+              />
             </Button>
-           
           </div>
-          <div style={{ display: "flex", gap: "30px",alignItems:"center" }}>
+          <div style={{ display: "flex", gap: "30px", alignItems: "center" }}>
             <h4>DOB : </h4>
-            <input
+            {/* <input
               type="date"
               min="1950-01-01"
               max="2025-07-16"
@@ -199,16 +222,29 @@ export default function Personal_info() {
                 width: "200px",
                 borderRadius: "5px",
                 fontSize: "20px",
-                // backgroundColor: " grey",
+                background: "none",
                 border: ".5px solid lightgrey ",
               }}
+            /> */}
+            <TextField
+              size="small"
+              type="date"
+              required
+              id="outlined-multiline-flexible"
+              spellCheck="false"
+              max="2025-07-16"
+              value={age}
+              onChange={handleAgeChange}
             />
           </div>
         </div>
 
         <div style={{ display: "flex", gap: "30px" }}>
-          <FormControl style={{ display: "flex" , }}>
-            <FormLabel id="demo-row-radio-buttons-group-label" style={{display:"flex", justifyContent:"flex-start"}}>
+          <FormControl style={{ display: "flex" }}>
+            <FormLabel
+              id="demo-row-radio-buttons-group-label"
+              style={{ display: "flex", justifyContent: "flex-start" }}
+            >
               Gender
             </FormLabel>
             <RadioGroup
@@ -235,7 +271,10 @@ export default function Personal_info() {
         </div>
         <div style={{ display: "flex" }}>
           <FormControl>
-            <FormLabel id="demo-controlled-radio-buttons-group" style={{display:"flex", justifyContent:"flex-start"}}>
+            <FormLabel
+              id="demo-controlled-radio-buttons-group"
+              style={{ display: "flex", justifyContent: "flex-start" }}
+            >
               Married ?
             </FormLabel>
             <RadioGroup

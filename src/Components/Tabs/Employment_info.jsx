@@ -59,7 +59,7 @@ export default function Employment_info() {
       <div style={{ display: "flex", justifyContent: "space-between" ,}}>
         <div style={{ display: "flex", }}>
           <h4> Employment Status : </h4>
-          <FormControl sx={{ m: 1, minWidth: 200 }} size="big" variant="filled">
+          <FormControl sx={{ m: 1, minWidth: 200 }} size="big" >
             <InputLabel id="demo-select-small-label"></InputLabel>
             <Select
               size="small"
@@ -89,13 +89,15 @@ export default function Employment_info() {
       <div style={{ padding: "10px", display: "flex", gap: "20px" }}>
         <h4>Company Name :</h4>
         <TextField
+        disabled={employmentstatus==="student"||employmentstatus==="Unemployed"}
+         
           size="small"
           sx={{ m: 1, Width: "200px" }}
           hiddenLabel
           id="filled-hidden-label-normal"
           value={companyname}
           onChange={handleCname}
-          variant="filled"
+ 
         />
         <h5 style={{ color: "grey" }}>*(if any)</h5>
       </div>
@@ -109,19 +111,12 @@ export default function Employment_info() {
         }}
       >
         <h4>Monthly Income : </h4>
-        <input
+        <TextField
+           disabled={employmentstatus==="student"||employmentstatus==="Unemployed"}
+        size="small"
           type="number"
           value={income}
           onChange={handleIncome}
-          style={{
-            width: "200px",
-            backgroundColor: "rgba(0, 0, 0, 0.06)",
-            borderTop: "none",
-            borderRight: "none",
-            borderLeft: "none",
-            borderBottom:".5px solid grey",
-            height: "40px",
-          }}
         />
       </div>
     </div>

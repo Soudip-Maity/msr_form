@@ -22,7 +22,7 @@ export default function Education_info() {
   };
 
   const handlepassingyear = (event) => {
-    const passingyears = event.target.value;
+    const passingyears = event.target.value.slice(0, 4);
     setpassingyear(passingyears);
     localStorage.setItem("passingyear", passingyears);
   };
@@ -36,6 +36,8 @@ export default function Education_info() {
     setpassingyear("");
     setinstitude("");
   };
+
+  console.log(`pppppppppppp${new Date().getFullYear()}`);
 
   return (
     <div
@@ -63,14 +65,12 @@ export default function Education_info() {
       >
         <div style={{ display: "flex" }}>
           <h4>Qualification : </h4>
-          <FormControl sx={{ m: 1, minWidth: 200 }} size="big" variant="filled">
+          <FormControl sx={{ m: 1, minWidth: 200 }} size="small">
             <InputLabel id="demo-select-small-label">
               Highest Qualification
             </InputLabel>
             <Select
               size="small"
-              labelId="demo-simple-select-helper-label"
-              id="demo-simple-select-helper"
               value={qualification}
               label="Highest Qualification"
               onChange={handleChange}
@@ -103,21 +103,19 @@ export default function Education_info() {
         }}
       >
         <h4>Year of passing : </h4>
-        <input
+        <TextField
+          id="outlined-multiline-flexible"
+          size="small"
           type="number"
-          min="1950"
-          max="2025"
+          max={new Date().getFullYear()}
+          error={parseInt(passingyear) > new Date().getFullYear()}
+          helperText={
+            parseInt(passingyear) > new Date().getFullYear()
+              ? "Enter Valid Year"
+              : ""
+          }
           value={passingyear}
           onChange={handlepassingyear}
-          style={{
-            height: "40px",
-            width: "200px",
-            borderRadius: "5px",
-            fontSize: "20px",
-            backgroundColor: "rgba(0, 0, 0, 0.06)",
-            border: ".5px solid  rgba(0, 0, 0, 0.06) ",
-            borderBottomColor: "black",
-          }}
         />
       </div>
 
@@ -131,10 +129,10 @@ export default function Education_info() {
       >
         <h4>Institution Name :</h4>
         <TextField
+          id="outlined-multiline-flexible"
           size="small"
-          hiddenLabel
-          id="filled-hidden-label-normal"
-          variant="filled"
+          // hiddenLabel
+          // variant="text"
           value={institude}
           onChange={handleinstitudename}
         />

@@ -16,6 +16,8 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 
+// const ismarrage = localStorage.getItem("marrage");
+
 const steps = [
   "Personal Info",
   "Family Info",
@@ -29,9 +31,45 @@ const steps = [
 export default function HorizontalLinearStepper() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
-  // const [details, setdetails]= React.useState({})
 
-  
+
+  // const [isMarried, setIsMarried] = React.useState(
+  //   () => localStorage.getItem("marrage") || "no"
+  // );
+  // const steps =
+  //   isMarried === "yes"
+  //     ? [
+  //         "Personal Info",
+  //         "Family Info",
+  //         "Contact Info",
+  //         "Education Info",
+  //         "Employment Info",
+  //         "Address & Documents",
+  //         "Review",
+  //       ]
+  //     : [
+  //         "Personal Info",
+  //         "Contact Info",
+  //         "Education Info",
+  //         "Employment Info",
+  //         "Address & Documents",
+  //         "Review",
+  //       ];
+
+  //       React.useEffect(()=>{
+  //         console.log("steps updated ");
+          
+  //       },[isMarried])
+
+  React.useEffect(() => {
+    fetch(
+      "http://localhost:1337/api/posts?populate[user][populate]=*&populate[tags][populate]=*&&populate[post_likes][populate]=*"
+    )
+      .then((r) => r.json())
+      .then((data) => {
+        console.log(data);
+      });
+  }, []);
 
   const isStepOptional = (step) => {
     return step === 3 || step === 4;
@@ -69,108 +107,159 @@ export default function HorizontalLinearStepper() {
       newSkipped.add(activeStep);
       return newSkipped;
     });
-  }; 
+  };
 
   const handleReset = () => {
     localStorage.clear();
     setActiveStep(0);
   };
+ 
+  // const renderStepContent = () => {
+  //   if (isMarried === "yes") {
+  //     switch (activeStep) {
+  //       case 0:
+  //         return <Personal_info />;
+  //       case 1:
+  //         return <Family_info />;
+  //       case 2:
+  //         return <Contact_info />;
+  //       case 3:
+  //         return <Education_info />;
+  //       case 4:
+  //         return <Employment_info />;
+  //       case 5:
+  //         return <Address_doc />;
+  //       case 6:
+  //         return <Review />;
+  //       default:
+  //         return null;
+  //     }
+  //   } else {
+  //     switch (activeStep) {
+  //       case 0:
+  //         return <Personal_info />;
+  //       case 1:
+  //         return <Contact_info />;
+  //       case 2:
+  //         return <Education_info />;
+  //       case 3:
+  //         return <Employment_info />;
+  //       case 4:
+  //         return <Address_doc />;
+  //       case 5:
+  //         return <Review />;
+  //       default:
+  //         return null;
+  //     }
+  //   }
+  // };
 
   return (
     <Box sx={{ width: "100%", height: "100vh", boxSizing: "border-box" }}>
-      <Box sx={{ width: "1000px", height: "100vh", boxSizing: "border-box",marginLeft: "200px",}}>
-      <Stepper activeStep={activeStep} sx={{paddingBottom:"40px"}}>
-        {steps.map((label, index) => {
-          const stepProps = {};
-          const labelProps = {};
-          // if (isStepOptional(index)) {
-          //   labelProps.optional = (
-          //     <Typography variant="caption">Optional</Typography>
-          //   );
-          // }
-          if (isStepSkipped(index)) {
-            stepProps.completed = false;
-          }
-          return (
-            <Step key={label} {...stepProps}>
-              <StepLabel {...labelProps}>{label}</StepLabel>
-            </Step>
-          );
-        })}
-      </Stepper>
+      <Box
+        sx={{
+          width: "1000px",
+          height: "100vh",
+          boxSizing: "border-box",
+          marginLeft: "180px",
+          py: "30px",
+        }}
+      >
+        <Stepper activeStep={activeStep} sx={{ paddingBottom: "40px" }}>
+          {steps.map((label, index) => {
+            const stepProps = {};
+            const labelProps = {};
+            // if (isStepOptional(index)) {
+            //   labelProps.optional = (
+            //     <Typography variant="caption">Optional</Typography>
+            //   );
+            // }
+            if (isStepSkipped(index)) {
+              stepProps.completed = false;
+            }
+            return (
+              <Step key={label} {...stepProps}>
+                <StepLabel {...labelProps}>{label}</StepLabel>
+              </Step>
+            );
+          })}
+        </Stepper>
+        
+        
+       {activeStep === 0  ? (
+         <>
+           <Personal_info />
+         </>
+       ) : activeStep === 1 ? (
+         <>
+           <Family_info />
+         </>
+       ) : activeStep === 2 ? (
+         <>
+           <Contact_info />
+         </>
+       ) : activeStep === 3 ? (
+         <>
+           <Education_info />
+         </>
+       ) : activeStep === 4 ? (
+         <>
+           <Employment_info />
+         </>
+       ) : activeStep === 5 ? (
+         <>
+           <Address_doc />
+         </>
+       ) : activeStep === 6? (
+         <>
+           <Review />
+         </>
+       ) :null}
 
-      {activeStep === 0 ? (
-        <>
-          <Personal_info />
-        </>
-      ) : activeStep === 1 ? (
-        <>
-          <Family_info />
-        </>
-      ) : activeStep === 2 ? (
-        <>
-          <Contact_info />
-        </>
-      ) : activeStep === 3 ? (
-        <>
-          <Education_info />
-        </>
-      ) : activeStep === 4 ? (
-        <>
-          <Employment_info />
-        </>
-      ) : activeStep === 5 ? (
-        <>
-          <Address_doc />
-        </>
-      ) : activeStep === 6? (
-        <>
-          <Review />
-        </>
-      ) :null}
 
-      {activeStep === steps.length ? (
-        <React.Fragment>
-          <Typography sx={{ mt: 2, mb: 1 }}>
-            All steps completed - you&apos;re finished
-          </Typography>
-          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-            <Box sx={{ flex: "1 1 auto" }} />
-            <Button onClick={handleReset} variant="contained+" color="error">
-              <RestartAltIcon />
-              Reset
-            </Button>
-          </Box>
-        </React.Fragment>
-      ) : (
-        <React.Fragment>
-          {/* <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography> */}
-          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-            <Button
-              color="inherit"
-              disabled={activeStep === 0}
-              onClick={handleBack}
-              sx={{ mr: 1 }}
-              variant="contained"
-            >
-              <ArrowBackIosIcon />
-              Back
-            </Button>
-            <Box sx={{ flex: "1 1 auto" }} />
-            {isStepOptional(activeStep) && (
-              <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                Skip
+{/*{renderStepContent()} */}
+
+        {activeStep === steps.length ? (
+          <React.Fragment>
+            <Typography sx={{ mt: 2, mb: 1 }}>
+              All steps completed - you&apos;re finished
+            </Typography>
+            <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+              <Box sx={{ flex: "1 1 auto" }} />
+              <Button onClick={handleReset} variant="contained+" color="error">
+                <RestartAltIcon />
+                Reset
               </Button>
-            )}
-            <Button onClick={handleNext} variant="contained">
-              {activeStep === steps.length - 1 ? "Finish" : "Next"}
-              <ArrowForwardIosIcon />
-            </Button>
-          </Box>
-        </React.Fragment>
-      )}
-
-</Box>
+            </Box>
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            {/* <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography> */}
+            <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+              <Button
+                color="inherit"
+                disabled={activeStep === 0}
+                onClick={handleBack}
+                sx={{ mr: 1 }}
+                variant="contained"
+              >
+                <ArrowBackIosIcon />
+                Back
+              </Button>
+              <Box sx={{ flex: "1 1 auto" }} />
+              {isStepOptional(activeStep) && (
+                <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
+                  Skip
+                </Button>
+              )}
+              <Button onClick={handleNext} variant="contained">
+                {activeStep === steps.length - 1 ? "Finish" : "Next"}
+                <ArrowForwardIosIcon />
+              </Button>
+            </Box>
+          </React.Fragment>
+        )}
+      </Box>
     </Box>
   );
 }

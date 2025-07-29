@@ -10,10 +10,14 @@ export default function Contact_info() {
   const scountry = localStorage.getItem("countryvalue");
   const lstate = localStorage.getItem("statevalue");
   const scity = localStorage.getItem("cityvalue");
+  const lphno= localStorage.getItem("phone_no")
+  const lemail= localStorage.getItem("email_id")
 
   const [country, setcountry] = useState(scountry || "");
   const [state, setstate] = useState(lstate || "");
   const [city, setcity] = useState(scity || "");
+  const [phno,setphno]= useState(lphno||"")
+  const [email,setemail]= useState(lemail||"")
 
   const handlecountry = (event) => {
     const countryvalue = event.target.value;
@@ -38,6 +42,17 @@ export default function Contact_info() {
     setstate("");
     setcity("");
   };
+
+  const handlephno=(event)=>{
+   const phnumber=event.target.value;
+   setphno(phnumber);
+   localStorage.setItem("phone_no",phnumber)
+  }
+  const handleemail=(event)=>{
+   const emailid=event.target.value;
+   setemail(emailid);
+   localStorage.setItem("email_id",emailid)
+  }
   const countries = [
     { code: "AD", label: "Andorra", phone: "376" },
     {
@@ -471,9 +486,10 @@ export default function Contact_info() {
         backgroundColor: "whitesmoke",
         boxSizing: "border-box",
         display: "flex",
+        flexDirection:"column",
         // marginLeft: "200px",
         padding: "20px",
-        gap: "20px",
+        gap: "40px",
         boxShadow: "1px 1px ",
         // boxShadow:"2px 1px 1px 1px grey",
         borderRadius: "10px",
@@ -554,6 +570,7 @@ export default function Contact_info() {
             label="city"
             value={city}
             onChange={handlecity}
+            
           />
         </div>
         <div>
@@ -563,6 +580,36 @@ export default function Contact_info() {
             />
           </Button>
         </div>
+      </div>
+      <div style={{
+          display: "flex",
+          width: "84%",
+          alignItems: "center",
+          height: "40px",
+         gap:"20px"
+        }}>
+          <TextField
+          type="number"
+          value={phno}
+          onChange={handlephno}
+             size="small"
+            required
+            id="outlined-required"
+            label="Phone No"
+            sx={{width:"400px"}}
+          />
+          <TextField
+          value={email}
+          onChange={handleemail}
+          type="email"
+             size="small"
+            required
+            id="outlined-required"
+            label="Email"
+             sx={{width:"400px"}}
+          />
+      
+
       </div>
     </div>
   );

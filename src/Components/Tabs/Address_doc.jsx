@@ -60,15 +60,13 @@ export default function Address_doc() {
       }}
     >
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <div style={{ display: "flex", gap: "20px", height: "fixed" }}>
+        <div style={{ display: "flex", gap: "20px", alignItems:"center" }}>
           <h4>Address :</h4>
           <TextField
           size="small"
-            id="standard-multiline-flexible"
             label="Address"
             multiline
             maxRows={4}
-            variant="standard"
             value={address}
             onChange={handleaddress}
             sx={{ minWidth: "600px" }}
@@ -110,7 +108,7 @@ export default function Address_doc() {
             </FormControl>
           ) : (
             <FormControl sx={{ m: 1, minWidth: 200 }}>
-              <InputLabel id="demo-simple-select-helper-label">
+              <InputLabel id="demo-simple-select-helper-label" size="small">
                 Proof of Identity
               </InputLabel>
               <Select
@@ -130,13 +128,14 @@ export default function Address_doc() {
         <div style={{ display: "flex", gap: "20px",alignItems:"center" }}>
           <h4>{idproof === "Aadhar" ? "Aadhar No :" : "Passport No : "}</h4>
           <TextField
+          type="number"
           size="small"
             sx={{ m: 1, Width: "200px" }}
             hiddenLabel
             id="filled-hidden-label-normal"
             value={idproofno}
             onChange={handleidproofno}
-            variant="filled"
+      
           />
           <h5 style={{ color: "grey" }}>*(if any)</h5>
         </div>
