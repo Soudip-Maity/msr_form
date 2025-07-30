@@ -135,6 +135,7 @@ export default function Education_info() {
           // variant="text"
           value={institude}
           onChange={handleinstitudename}
+            autoComplete="off"
         />
       </div>
     </div>

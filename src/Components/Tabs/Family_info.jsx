@@ -25,9 +25,8 @@ export default function Family_info() {
   const [childvalue, setchildvalue] = useState(JSON.parse(schilds) || []);
   const [editvalue, seteditvalue] = useState("");
   const [editindex, seteditindex] = useState("");
-  const[childage,setchildage]= useState("")
-  const[editchildage,seteditchildage]= useState("")
-
+  const [childage, setchildage] = useState("");
+  const [editchildage, seteditchildage] = useState("");
 
   const handlegardianNameChange = (event) => {
     const guardians = event.target.value;
@@ -40,7 +39,6 @@ export default function Family_info() {
     setguardianage(guardiansage);
     localStorage.setItem("guardianage", guardiansage);
     console.log(guardiansage);
-
   };
 
   const handleAddinput = () => {
@@ -50,7 +48,7 @@ export default function Family_info() {
   const handleEditchild = (index) => {
     seteditindex(index);
     seteditvalue(childvalue[index]);
-    seteditchildage(childage[index])
+    seteditchildage(childage[index]);
   };
 
   const handledelchild = (index) => {
@@ -66,7 +64,7 @@ export default function Family_info() {
     const childagearrey = JSON.stringify(childage);
     localStorage.setItem("childs name", childnamearrey);
     localStorage.setItem("childs age", childagearrey);
-  }, [childvalue,childage]);
+  }, [childvalue, childage]);
 
   const handleRefreshpage = () => {
     setguardian("");
@@ -74,7 +72,7 @@ export default function Family_info() {
     setchildvalue([]);
   };
 
-console.log(`kkkkkkk${userage}`);
+  console.log(`kkkkkkk${userage}`);
 
   return (
     <div
@@ -93,11 +91,20 @@ console.log(`kkkkkkk${userage}`);
       }}
     >
       {item === "yes" ? (
-        <div style={{ display: "flex", flexDirection: "column", width:"100%" }}>
-          <div style={{ display: "flex", justifyContent: "space-between",width:"100%" ,alignItems:"center"}}>
+        <div
+          style={{ display: "flex", flexDirection: "column", width: "100%" }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              width: "100%",
+              alignItems: "center",
+            }}
+          >
             <div style={{ display: "flex", gap: "30px" }}>
               <TextField
-                  size="small"
+                size="small"
                 required
                 id="outlined-multiline-flexible"
                 label={
@@ -109,18 +116,20 @@ console.log(`kkkkkkk${userage}`);
                 value={guardian}
                 onChange={handlegardianNameChange}
                 style={{ height: "55px", width: "300px" }}
+                  autoComplete="off"
               />
               <TextField
-                  size="small"
-                  type="number"
+                size="small"
+                type="number"
                 required
                 id="outlined-multiline-flexible"
                 label={
                   profile_gender === "male" ? "Wife's age" : "Husband's age"
                 }
                 spellCheck="false"
-                       value={guardianage}
+                value={guardianage}
                 onChange={handleAgeChange}
+                  autoComplete="off"
               />
 
               {/* <input
@@ -137,7 +146,7 @@ console.log(`kkkkkkk${userage}`);
                 }}
               /> */}
             </div>
-            
+
             <div>
               <Button onClick={handleRefreshpage}>
                 <ReplayCircleFilledIcon
@@ -173,11 +182,12 @@ console.log(`kkkkkkk${userage}`);
           </div>
 
           <div>
-            <div >
-              <p  style={{display:"flex",justifyContent:"flex-start"}} >Child's Names</p>
+            <div>
+              <p style={{ display: "flex", justifyContent: "flex-start" }}>
+                Child's Names
+              </p>
 
               {childvalue.map((i, index) =>
-            
                 editindex === index ? (
                   <Editinput
                     editvalue={editvalue}
@@ -186,26 +196,41 @@ console.log(`kkkkkkk${userage}`);
                     editindex={editindex}
                     setchildvalue={setchildvalue}
                     childvalue={childvalue}
-                      childage={childage}
-                  setchildage={setchildage}
-                  userage={userage}
-                  editchildage={editchildage}
-                  seteditchildage={seteditchildage}
+                    childage={childage}
+                    setchildage={setchildage}
+                    userage={userage}
+                    editchildage={editchildage}
+                    seteditchildage={seteditchildage}
                   />
                 ) : (
-                  <div style={{ display: "flex",height:"30px",paddingBottom:"10px",alignItems:"center",}} key={index}>
+                  <div
+                    style={{
+                      display: "flex",
+                      height: "30px",
+                      paddingBottom: "10px",
+                      alignItems: "center",
+                    }}
+                    key={index}
+                  >
                     <div
                       style={{
                         display: "flex",
                         gap: "30px",
                         minWidth: "100px",
                         fontSize: "16px",
-                        alignItems:"center"
+                        alignItems: "center",
                       }}
                     >
                       <p>{index + 1}.</p>
-                      <p style={{display:"flex",justifyContent:"space-between",width:"200px",alignItems:"center"}}>
-                       <p>Name : {i}</p>  <p> Age : {childage[index]}</p>
+                      <p
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          width: "200px",
+                          alignItems: "center",
+                        }}
+                      >
+                        <p>Name : {i}</p> <p> Age : {childage[index]}</p>
                       </p>
                     </div>
                     <div
@@ -215,7 +240,7 @@ console.log(`kkkkkkk${userage}`);
                       }}
                     >
                       <Button onClick={() => handleEditchild(index)}>
-                        <EditIcon color="action" style={{height:"20px"}} />
+                        <EditIcon color="action" style={{ height: "20px" }} />
                       </Button>
                     </div>
                     <div
@@ -235,30 +260,37 @@ console.log(`kkkkkkk${userage}`);
           </div>
         </div>
       ) : (
-        <div style={{width:"100%"}}>
-            <div style={{ display: "flex", justifyContent:"space-between",width:"100%" ,alignItems:"center"}}>
-          <div style={{ display: "flex", gap: "30px" }}>
-            <TextField
-            size="small"
-              id="outlined-multiline-flexible"
-              label=" Father's Name"
-              multiline
-              maxRows={4}
-              spellCheck="false"
-              value={guardian}
-              onChange={handlegardianNameChange}
-              style={{ height: "55px", width: "300px" }}
-            />
+        <div style={{ width: "100%" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              width: "100%",
+              alignItems: "center",
+            }}
+          >
+            <div style={{ display: "flex", gap: "30px" }}>
+              <TextField
+                size="small"
+                id="outlined-multiline-flexible"
+                label=" Father's Name"
+                multiline
+                maxRows={4}
+                spellCheck="false"
+                value={guardian}
+                onChange={handlegardianNameChange}
+                style={{ height: "55px", width: "300px" }}
+              />
 
-            <TextField
-            size="small"
-              type="number"
-                 label=" Father's age"
-              value={guardianage}
-              onChange={handleAgeChange}
-            />
-          </div>
-                <div>
+              <TextField
+                size="small"
+                type="number"
+                label=" Father's age"
+                value={guardianage}
+                onChange={handleAgeChange}
+              />
+            </div>
+            <div>
               <Button onClick={handleRefreshpage}>
                 <ReplayCircleFilledIcon
                   style={{ fontSize: "40px", cursor: "pointer", color: "red" }}

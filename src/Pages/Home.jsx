@@ -61,15 +61,15 @@ export default function HorizontalLinearStepper() {
           
   //       },[isMarried])
 
-  React.useEffect(() => {
-    fetch(
-      "http://localhost:1337/api/posts?populate[user][populate]=*&populate[tags][populate]=*&&populate[post_likes][populate]=*"
-    )
-      .then((r) => r.json())
-      .then((data) => {
-        console.log(data);
-      });
-  }, []);
+  // React.useEffect(() => {
+  //   fetch(
+  //     "http://localhost:1337/api/posts?populate[user][populate]=*&populate[tags][populate]=*&&populate[post_likes][populate]=*"
+  //   )
+  //     .then((r) => r.json())
+  //     .then((data) => {
+  //       console.log(data);
+  //     });
+  // }, []);
 
   const isStepOptional = (step) => {
     return step === 3 || step === 4;

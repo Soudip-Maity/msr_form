@@ -201,6 +201,7 @@ export default function Personal_info() {
                 value={name}
                 onChange={handleNameChange}
                 style={{ width: "300px" }}
+                  autoComplete="off"
               />
             </div>
             <Button onClick={handleRefreshpage}>

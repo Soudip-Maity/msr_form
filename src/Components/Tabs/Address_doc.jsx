@@ -70,6 +70,7 @@ export default function Address_doc() {
             value={address}
             onChange={handleaddress}
             sx={{ minWidth: "600px" }}
+            autoComplete="off"
           />
         </div>
 
@@ -89,7 +90,7 @@ export default function Address_doc() {
         }}
       >
         <div style={{ display: "flex",alignItems:"center" }}>
-          {country === "india" ? (
+          {country === "India" ? (
             <FormControl sx={{ m: 1, minWidth: 200 }}>
               <InputLabel id="demo-simple-select-helper-label">
                 Proof of Identity
@@ -135,7 +136,7 @@ export default function Address_doc() {
             id="filled-hidden-label-normal"
             value={idproofno}
             onChange={handleidproofno}
-      
+            autoComplete="off"
           />
           <h5 style={{ color: "grey" }}>*(if any)</h5>
         </div>

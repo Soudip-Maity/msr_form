@@ -7,53 +7,7 @@ import Box from "@mui/material/Box";
 import Autocomplete from "@mui/material/Autocomplete";
 
 export default function Contact_info() {
-  const scountry = localStorage.getItem("countryvalue");
-  const lstate = localStorage.getItem("statevalue");
-  const scity = localStorage.getItem("cityvalue");
-  const lphno= localStorage.getItem("phone_no")
-  const lemail= localStorage.getItem("email_id")
-
-  const [country, setcountry] = useState(scountry || "");
-  const [state, setstate] = useState(lstate || "");
-  const [city, setcity] = useState(scity || "");
-  const [phno,setphno]= useState(lphno||"")
-  const [email,setemail]= useState(lemail||"")
-
-  const handlecountry = (event) => {
-    const countryvalue = event.target.value;
-    setcountry(countryvalue);
-    localStorage.setItem("countryvalue", countryvalue);
-  };
-
-  const handlestate = (event) => {
-    const statevalue = event.target.value;
-    setstate(statevalue);
-    localStorage.setItem("statevalue", statevalue);
-  };
-
-  const handlecity = (event) => {
-    const cityvalue = event.target.value;
-    setcity(cityvalue);
-    localStorage.setItem("cityvalue", cityvalue);
-  };
-
-  const handleRefreshpage = () => {
-    setcountry("");
-    setstate("");
-    setcity("");
-  };
-
-  const handlephno=(event)=>{
-   const phnumber=event.target.value;
-   setphno(phnumber);
-   localStorage.setItem("phone_no",phnumber)
-  }
-  const handleemail=(event)=>{
-   const emailid=event.target.value;
-   setemail(emailid);
-   localStorage.setItem("email_id",emailid)
-  }
-  const countries = [
+   const countries = [
     { code: "AD", label: "Andorra", phone: "376" },
     {
       code: "AE",
@@ -477,6 +431,58 @@ export default function Contact_info() {
     { code: "ZM", label: "Zambia", phone: "260" },
     { code: "ZW", label: "Zimbabwe", phone: "263" },
   ];
+  const scountry = localStorage.getItem("countryvalue");
+  const initialCountry = countries.find(c => c.label === scountry);
+  const lstate = localStorage.getItem("statevalue");
+  const scity = localStorage.getItem("cityvalue");
+  const lphno = localStorage.getItem("phone_no");
+  const lemail = localStorage.getItem("email_id");
+
+  const [country, setcountry] = useState(initialCountry || "");
+  const [state, setstate] = useState(lstate || "");
+  const [city, setcity] = useState(scity || "");
+  const [phno, setphno] = useState(lphno || "");
+  const [email, setemail] = useState(lemail || "");
+
+const handlecountry = (event, newValue) => {
+  setcountry(newValue);
+  if (newValue) {
+    localStorage.setItem("countryvalue", newValue.label); 
+  } else {
+    localStorage.removeItem("countryvalue");
+  }
+};
+
+
+  const handlestate = (event) => {
+    const statevalue = event.target.value;
+    setstate(statevalue);
+    localStorage.setItem("statevalue", statevalue);
+  };
+
+  const handlecity = (event) => {
+    const cityvalue = event.target.value;
+    setcity(cityvalue);
+    localStorage.setItem("cityvalue", cityvalue);
+  };
+
+  const handleRefreshpage = () => {
+    setcountry("");
+    setstate("");
+    setcity("");
+  };
+
+  const handlephno = (event) => {
+    const phnumber = event.target.value;
+    setphno(phnumber);
+    localStorage.setItem("phone_no", phnumber);
+  };
+  const handleemail = (event) => {
+    const emailid = event.target.value;
+    setemail(emailid);
+    localStorage.setItem("email_id", emailid);
+  };
+ 
 
   return (
     <div
@@ -486,7 +492,7 @@ export default function Contact_info() {
         backgroundColor: "whitesmoke",
         boxSizing: "border-box",
         display: "flex",
-        flexDirection:"column",
+        flexDirection: "column",
         // marginLeft: "200px",
         padding: "20px",
         gap: "40px",
@@ -545,11 +551,9 @@ export default function Contact_info() {
               <TextField
                 {...params}
                 label="Choose a country"
-                slotProps={{
-                  htmlInput: {
-                    ...params.inputProps,
-                    autoComplete: "new-password", // disable autocomplete and autofill
-                  },
+                inputProps={{
+                  ...params.inputProps,
+                  autoComplete: "new-password",
                 }}
               />
             )}
@@ -562,6 +566,7 @@ export default function Contact_info() {
             label="state"
             value={state}
             onChange={handlestate}
+              autoComplete="off"
           />
           <TextField
             size="small"
@@ -570,7 +575,7 @@ export default function Contact_info() {
             label="city"
             value={city}
             onChange={handlecity}
-            
+              autoComplete="off"
           />
         </div>
         <div>
@@ -581,35 +586,37 @@ export default function Contact_info() {
           </Button>
         </div>
       </div>
-      <div style={{
+      <div
+        style={{
           display: "flex",
           width: "84%",
           alignItems: "center",
           height: "40px",
-         gap:"20px"
-        }}>
-          <TextField
+          gap: "20px",
+        }}
+      >
+        <TextField
           type="number"
           value={phno}
           onChange={handlephno}
-             size="small"
-            required
-            id="outlined-required"
-            label="Phone No"
-            sx={{width:"400px"}}
-          />
-          <TextField
+          size="small"
+          required
+          id="outlined-required"
+          label="Phone No"
+          sx={{ width: "400px" }}
+            autoComplete="off"
+        />
+        <TextField
           value={email}
           onChange={handleemail}
           type="email"
-             size="small"
-            required
-            id="outlined-required"
-            label="Email"
-             sx={{width:"400px"}}
-          />
-      
-
+          size="small"
+          required
+          id="outlined-required"
+          label="Email"
+          sx={{ width: "400px" }}
+            autoComplete="off"
+        />
       </div>
     </div>
   );

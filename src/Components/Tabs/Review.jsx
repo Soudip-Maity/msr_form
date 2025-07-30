@@ -57,10 +57,10 @@ export default function Review() {
           }}
         />
         <h2 style={{ display: "flex", marginTop: "-1px", paddingLeft: "10px" }}>
-          {username}
+          {username.toUpperCase()}
         </h2>
-        <p style={{ display: "flex", marginTop: "-20px", paddingLeft: "20px" }}>
-          {gmail}
+        <p style={{ display: "flex", marginTop: "-20px", paddingLeft: "10px" }}>
+          {gmail}, {countryvalue}
         </p>
       </div>
 
@@ -92,7 +92,7 @@ export default function Review() {
           </div>
           <div style={{ display: "flex", height: "30px", gap: "10px" }}>
             <p>Guardian : </p>
-            <p>{guardian}</p>
+            <p>{guardian.toUpperCase()}</p>
           </div>
           <div
             style={{
