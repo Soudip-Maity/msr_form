@@ -48,6 +48,7 @@ const handleupdate=()=>{
             variant="outlined"
             value={editvalue}
             onChange={handleeditinputvalues}
+                autoComplete="off"
           />
           <TextField
           size="small"
@@ -58,6 +59,7 @@ const handleupdate=()=>{
             value={editchildage}
             onChange={handleeditageinputvalues}
             sx={{width:"80px"}}
+                autoComplete="off"
           />
           <Button variant="contained" color="success" sx={{ minWidth: "20px" }} onClick={handleupdate}>
             update

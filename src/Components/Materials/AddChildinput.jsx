@@ -28,7 +28,7 @@ setinputage(value)
       alert("Please enter both name and age.");
       return;
     }
-    else if(inputage>=userage){
+    else if(Number(inputage)>=Number(userage)){
       alert("Child's age should be less than guardian's age.");
       return;
     }
@@ -50,8 +50,12 @@ setinputage(value)
       <Box
    sx={{display:"flex",gap:"30px"}}
     >
-      <TextField size="small" id="outlined-basic" label="Child's Name" variant="outlined" value={input} onChange={addchildinput}/>
-      <TextField size="small" id="outlined-basic" label="Age" variant="outlined" value={inputage} type="number" onChange={addchildinputage} sx={{width:"80px"}}/>
+      <TextField size="small" id="outlined-basic" label="Child's Name" variant="outlined" value={input} onChange={addchildinput} 
+                  autoComplete="off"
+      />
+      <TextField size="small" id="outlined-basic" label="Age" variant="outlined" value={inputage} type="number" onChange={addchildinputage} sx={{width:"80px"}}
+                  autoComplete="off"
+      />
       <Button variant="contained" color="success"  sx={{minWidth:"20px"}} onClick={Addchildvalue} >add</Button>
       <Button variant="contained" color="error" sx={{minWidth:"20px"}} onClick={handlecancil}>cancel</Button>
 

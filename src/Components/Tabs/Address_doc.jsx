@@ -92,7 +92,7 @@ export default function Address_doc() {
         <div style={{ display: "flex",alignItems:"center" }}>
           {country === "India" ? (
             <FormControl sx={{ m: 1, minWidth: 200 }}>
-              <InputLabel id="demo-simple-select-helper-label">
+              <InputLabel id="demo-simple-select-helper-label" size="small">
                 Proof of Identity
               </InputLabel>
               <Select

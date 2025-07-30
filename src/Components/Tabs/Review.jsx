@@ -46,8 +46,8 @@ export default function Review() {
           style={{ width: "100%", height: "80px" }}
         />
         <img
-          src={Ppic}
-          alt="alt_dp.png"
+          src={Ppic?Ppic:"./alt_dp.png"}
+          alt= {"./alt_dp.png"}
           style={{
             width: "120px",
             height: "120px",
@@ -57,10 +57,10 @@ export default function Review() {
           }}
         />
         <h2 style={{ display: "flex", marginTop: "-1px", paddingLeft: "10px" }}>
-          {username.toUpperCase()}
+          {username.toUpperCase()?username.toUpperCase():"NA"}
         </h2>
         <p style={{ display: "flex", marginTop: "-20px", paddingLeft: "10px" }}>
-          {gmail}, {countryvalue}
+          {gmail?gmail:"NA"}, {countryvalue?countryvalue:"NA"}
         </p>
       </div>
 
@@ -80,11 +80,11 @@ export default function Review() {
           </div>
           <div style={{ display: "flex", height: "30px", gap: "10px" }}>
             <p>Sex : </p>
-            <p>{gender}</p>
+            <p>{gender?gender:"NA"}</p>
           </div>
           <div style={{ display: "flex", height: "30px", gap: "10px" }}>
             <p>DOB : </p>
-            <p>{userage}</p>
+            <p>{userage?userage:"NA"}</p>
           </div>
           <div style={{ display: "flex", height: "30px", gap: "10px" }}>
             <p>marital status : </p>
@@ -92,7 +92,7 @@ export default function Review() {
           </div>
           <div style={{ display: "flex", height: "30px", gap: "10px" }}>
             <p>Guardian : </p>
-            <p>{guardian.toUpperCase()}</p>
+            <p>{guardian.toUpperCase()?guardian.toUpperCase():"NA"}</p>
           </div>
           <div
             style={{
@@ -103,7 +103,7 @@ export default function Review() {
             }}
           >
             <p>Address :</p>
-            <p>{address}</p>
+            <p>{address?address:"NA"}</p>
           </div>
         </div>
 
@@ -125,11 +125,11 @@ export default function Review() {
             </div>
             <div style={{ display: "flex", height: "30px", gap: "10px" }}>
               <p>Phone No : </p>
-              <p>{phone_number}</p>
+              <p>{phone_number?phone_number:"NA"}</p>
             </div>
             <div style={{ display: "flex", height: "30px", gap: "10px" }}>
               <p>Email : </p>
-              <p>{gmail}</p>
+              <p>{gmail?gmail:"NA"}</p>
             </div>
           
           
@@ -150,11 +150,15 @@ export default function Review() {
             </div>
             <div style={{ display: "flex", height: "30px", gap: "10px" }}>
               <p>Qualification : </p>
-              <p>{qualification}</p>
+              <p>{qualification?qualification:"NA"}</p>
             </div>
             <div style={{ display: "flex", height: "30px", gap: "10px" }}>
               <p>Passing Year : </p>
-              <p>{passingyear}</p>
+              <p>{passingyear?passingyear:"NA"}</p>
+            </div>
+            <div style={{ display: "flex", height: "30px", gap: "10px" }}>
+              <p>institude : </p>
+              <p>{institude?institude:"NA"}</p>
             </div>
 
           </div>

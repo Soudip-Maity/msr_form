@@ -17,6 +17,8 @@ export default function Family_info() {
   const childname = localStorage.getItem("childname");
   const schilds = localStorage.getItem("childs name");
   const userage = localStorage.getItem("userage");
+  const childsage = localStorage.getItem("childs age");
+
   console.log(childname);
 
   const [guardian, setguardian] = useState(sguardian || "");
@@ -25,7 +27,7 @@ export default function Family_info() {
   const [childvalue, setchildvalue] = useState(JSON.parse(schilds) || []);
   const [editvalue, seteditvalue] = useState("");
   const [editindex, seteditindex] = useState("");
-  const [childage, setchildage] = useState("");
+  const [childage, setchildage] = useState(JSON.parse(childsage)||[]);
   const [editchildage, seteditchildage] = useState("");
 
   const handlegardianNameChange = (event) => {
@@ -53,7 +55,9 @@ export default function Family_info() {
 
   const handledelchild = (index) => {
     const updatechildvalue = childvalue.filter((_, i) => i !== index);
+    const updatechildagevalue = childage.filter((_, i) => i !== index);
     setchildvalue(updatechildvalue);
+    setchildage(updatechildagevalue);
   };
 
   console.log(`abcd ${editvalue}`);
@@ -61,15 +65,19 @@ export default function Family_info() {
 
   useEffect(() => {
     const childnamearrey = JSON.stringify(childvalue);
-    const childagearrey = JSON.stringify(childage);
     localStorage.setItem("childs name", childnamearrey);
+  }, [childvalue]);
+
+  useEffect(() => {
+    const childagearrey = JSON.stringify(childage);
     localStorage.setItem("childs age", childagearrey);
-  }, [childvalue, childage]);
+  }, [ childage]);
 
   const handleRefreshpage = () => {
     setguardian("");
     setguardianage("");
     setchildvalue([]);
+    setchildage([])
   };
 
   console.log(`kkkkkkk${userage}`);

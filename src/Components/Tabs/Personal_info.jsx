@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 
 import ReplayCircleFilledIcon from "@mui/icons-material/ReplayCircleFilled";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -30,13 +31,13 @@ export default function Personal_info() {
   const guserage = localStorage.getItem("userdob");
   const ggender = localStorage.getItem("gender");
   const gmarrage = localStorage.getItem("marrage");
-  const limage = localStorage.getItem("profileImage")
-  
+  const limage = localStorage.getItem("profileImage");
+
   const [name, setName] = useState(gusername || "");
   const [age, setAge] = useState(guserage || "");
   const [gender, setGender] = useState(ggender || "");
   const [married, setmarried] = useState(gmarrage || "");
-  const [pimg, setpimg] = useState(limage||"");
+  const [pimg, setpimg] = useState(limage || "");
 
   const dates = new Date().toLocaleDateString();
 
@@ -55,7 +56,6 @@ export default function Personal_info() {
 
     localStorage.setItem("userdob", userage);
     localStorage.setItem("userage", calculateAge(userage));
-
   };
 
   const handleGenderChange = (event) => {
@@ -82,7 +82,7 @@ export default function Personal_info() {
     setmarried("");
   };
 
-     const calculateAge = (dob) => {
+  const calculateAge = (dob) => {
     const birthDate = new Date(dob);
     const today = new Date();
 
@@ -95,7 +95,28 @@ export default function Personal_info() {
 
     return age;
   };
+  const handleuserimg = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
+      if (!allowedTypes.includes(file.type)) {
+        alert("Only JPG, JPEG, and PNG formats are allowed.");
+        return;
+      }
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setpimg(reader.result);
+        localStorage.setItem("profileImage", reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
+  const handleimgdel = () => {
+    setpimg("");
+        localStorage.setItem("profileImage", "");
+
+  };
   return (
     <div
       style={{
@@ -139,37 +160,25 @@ export default function Personal_info() {
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />
           </div>
-
-          <Button
-            component="label"
-            role={undefined}
-            variant="contained"
-            tabIndex={-1}
-            startIcon={<CloudUploadIcon />}
-          >
-            Upload file
-           <VisuallyHiddenInput
-  type="file"
-  accept="image/png, image/jpeg, image/jpg"
-  onChange={(event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
-      if (!allowedTypes.includes(file.type)) {
-        alert("Only JPG, JPEG, and PNG formats are allowed.");
-        return;
-      }
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setpimg(reader.result);
-        localStorage.setItem("profileImage", reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  }}
-/>
-
-          </Button>
+          <div style={{ display: "flex", gap: "20px" }}>
+            <Button
+              component="label"
+              role={undefined}
+              variant="contained"
+              tabIndex={-1}
+              startIcon={<CloudUploadIcon />}
+            >
+              Upload file
+              <VisuallyHiddenInput
+                type="file"
+                accept="image/png, image/jpeg, image/jpg"
+                onChange={handleuserimg}
+              />
+            </Button>
+            <Button variant="contained" color="error" onClick={handleimgdel}>
+              <DeleteIcon />
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -201,7 +210,7 @@ export default function Personal_info() {
                 value={name}
                 onChange={handleNameChange}
                 style={{ width: "300px" }}
-                  autoComplete="off"
+                autoComplete="off"
               />
             </div>
             <Button onClick={handleRefreshpage}>

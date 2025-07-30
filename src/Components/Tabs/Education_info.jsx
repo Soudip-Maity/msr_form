@@ -116,6 +116,7 @@ export default function Education_info() {
           }
           value={passingyear}
           onChange={handlepassingyear}
+              autoComplete="off"
         />
       </div>
 
